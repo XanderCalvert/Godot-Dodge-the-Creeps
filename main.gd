@@ -2,14 +2,21 @@ extends Node
 
 @export var mob_scene: PackedScene
 var score
+var highscore = [] #high score array
 
 
 func game_over():
 	$ScoreTimer.stop()
 	$MobTimer.stop()
 	
-	$HUD.show_game_over()
+	highscore.append(score)
+	highscore.sort() # sorts ascending
+	highscore.reverse() # so highest is first
 	
+	$HUD.update_highscore(highscore[0])
+	
+	$HUD.show_game_over()
+
 func new_game():
 	score = 0
 	get_tree().call_group("Mobs", "queue_free")
@@ -18,7 +25,6 @@ func new_game():
 	
 	$HUD.update_score(score)
 	$HUD.show_message("Get Ready")
-
 
 func _on_mob_timer_timeout():
 	var mob = mob_scene.instantiate()
