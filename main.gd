@@ -8,6 +8,8 @@ var highscore = [] #high score array
 func game_over():
 	$ScoreTimer.stop()
 	$MobTimer.stop()
+	$Music.stop()
+	$DeathSound.play()
 	
 	highscore.append(score)
 	highscore.sort() # sorts ascending
@@ -19,6 +21,7 @@ func game_over():
 
 func new_game():
 	score = 0
+	$Music.play()
 	get_tree().call_group("Mobs", "queue_free")
 	$Player.start($StartPosition.position)
 	$StartTimer.start()
